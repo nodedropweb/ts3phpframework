@@ -1,5 +1,27 @@
 <?php
 
+/**
+ * @file
+ * TeamSpeak 3 PHP Framework
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package   TeamSpeak3
+ * @author    Sven 'ScP' Paulsen
+ * @copyright Copyright (c) Planet TeamSpeak. All rights reserved.
+ */
+
 namespace PlanetTeamSpeak\TeamSpeak3Framework\Node;
 
 use PlanetTeamSpeak\TeamSpeak3Framework\Adapter\ServerQuery;
@@ -113,7 +135,7 @@ class Host extends Node
      * @throws AdapterException
      * @throws ServerQueryException
      */
-    public function version(string $ident = null): mixed
+    public function version(?string $ident = null): mixed
     {
         if ($this->version === null) {
             $this->version = $this->request("version")->toList();
@@ -132,7 +154,7 @@ class Host extends Node
      * @throws AdapterException
      * @throws ServerQueryException
      */
-    public function serverSelect(int $sid, bool $virtual = null): void
+    public function serverSelect(int $sid, ?bool $virtual = null): void
     {
         if ($this->whoami !== null && $this->serverSelectedId() == $sid) {
             return;
@@ -167,7 +189,7 @@ class Host extends Node
      * @throws AdapterException
      * @throws ServerQueryException
      */
-    public function serverSelectById(int $sid, bool $virtual = null): void
+    public function serverSelectById(int $sid, ?bool $virtual = null): void
     {
         $this->serverSelect($sid, $virtual);
     }
@@ -182,7 +204,7 @@ class Host extends Node
      * @throws ServerQueryException
      * @todo   remove additional clientupdate call (breaks compatibility with server versions <= 3.4.0)
      */
-    public function serverSelectByPort(int $port, bool $virtual = null): void
+    public function serverSelectByPort(int $port, ?bool $virtual = null): void
     {
         if ($this->whoami !== null && $this->serverSelectedPort() == $port) {
             return;
@@ -405,7 +427,7 @@ class Host extends Node
      * @throws AdapterException
      * @throws ServerQueryException
      */
-    public function serverStop(int $sid, string $msg = null): void
+    public function serverStop(int $sid, ?string $msg = null): void
     {
         if ($sid == $this->serverSelectedId()) {
             $this->serverDeselect();
@@ -425,7 +447,7 @@ class Host extends Node
      * @throws AdapterException
      * @throws ServerQueryException
      */
-    public function serverStopProcess(string $msg = null): void
+    public function serverStopProcess(?string $msg = null): void
     {
         Signal::getInstance()->emit("notifyServershutdown", $this);
 
@@ -505,7 +527,7 @@ class Host extends Node
      * @throws AdapterException
      * @throws ServerQueryException
      */
-    public function apiKeyList(int $offset = null, int $limit = null, mixed $cldbid = null): array
+    public function apiKeyList(?int $offset = null, ?int $limit = null, mixed $cldbid = null): array
     {
         return $this->execute("apikeylist -count", ["start" => $offset, "duration" => $limit, "cldbid" => $cldbid])->toAssocArray("id");
     }
@@ -522,7 +544,7 @@ class Host extends Node
      * @throws AdapterException
      * @throws ServerQueryException
      */
-    public function apiKeyCreate(string $scope = TeamSpeak3::APIKEY_READ, int $lifetime = 14, int $cldbid = null): array
+    public function apiKeyCreate(string $scope = TeamSpeak3::APIKEY_READ, int $lifetime = 14, ?int $cldbid = null): array
     {
         $detail = $this->execute("apikeyadd", ["scope" => $scope, "lifetime" => $lifetime, "cldbid" => $cldbid])->toList();
 
@@ -874,7 +896,7 @@ class Host extends Node
      * @throws AdapterException
      * @throws ServerQueryException
      */
-    public function logView(int $lines = 30, int $begin_pos = null, bool $reverse = null, bool $instance = true): array
+    public function logView(int $lines = 30, ?int $begin_pos = null, ?bool $reverse = null, bool $instance = true): array
     {
         return $this->execute("logview", ["lines" => $lines, "begin_pos" => $begin_pos, "instance" => $instance, "reverse" => $reverse])->toArray();
     }
@@ -946,7 +968,7 @@ class Host extends Node
      * @throws ServerQueryException
      * @throws AdapterException
      */
-    public function queryCountLogin(string $pattern = null): mixed
+    public function queryCountLogin(?string $pattern = null): mixed
     {
         return current($this->execute("queryloginlist -count", ["duration" => 1, "pattern" => $pattern])->toList("count"));
     }
@@ -962,7 +984,7 @@ class Host extends Node
      * @throws AdapterException
      * @throws ServerQueryException
      */
-    public function queryListLogin(int $offset = null, int $limit = null, string $pattern = null): array
+    public function queryListLogin(?int $offset = null, ?int $limit = null, ?string $pattern = null): array
     {
         return $this->execute("queryloginlist -count", ["start" => $offset, "duration" => $limit, "pattern" => $pattern])->toAssocArray("cldbid");
     }
@@ -1150,7 +1172,7 @@ class Host extends Node
      *
      * @param string|null $name
      */
-    public function setPredefinedQueryName(string $name = null)
+    public function setPredefinedQueryName(?string $name = null)
     {
         $this->setStorage("_query_nick", $name);
 

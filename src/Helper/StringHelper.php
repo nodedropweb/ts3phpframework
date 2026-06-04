@@ -1,5 +1,27 @@
 <?php
 
+/**
+ * @file
+ * TeamSpeak 3 PHP Framework
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package   TeamSpeak3
+ * @author    Sven 'ScP' Paulsen
+ * @copyright Copyright (c) Planet TeamSpeak. All rights reserved.
+ */
+
 namespace PlanetTeamSpeak\TeamSpeak3Framework\Helper;
 
 use ArrayAccess;
@@ -182,7 +204,7 @@ class StringHelper implements ArrayAccess, Iterator, Countable, JsonSerializable
      * @param integer|null $length
      * @return self
      */
-    public function substr(int $start, int $length = null): StringHelper
+    public function substr(int $start, ?int $length = null): StringHelper
     {
         $string = ($length !== null) ? substr($this->string, $start, $length) : substr($this->string, $start);
 
@@ -198,7 +220,7 @@ class StringHelper implements ArrayAccess, Iterator, Countable, JsonSerializable
      */
     public function split(string $separator, int $limit = 0): array
     {
-        $parts = explode($separator, $this->string, ($limit) ?: $this->count());
+        $parts = $limit > 0 ? explode($separator, $this->string, $limit) : explode($separator, $this->string);
 
         foreach ($parts as $key => $val) {
             $parts[$key] = new self($val);
@@ -447,7 +469,10 @@ class StringHelper implements ArrayAccess, Iterator, Countable, JsonSerializable
     public function toUtf8(): static
     {
         if (!$this->isUtf8()) {
-            $this->string = mb_convert_encoding($this->string, 'UTF-8', mb_list_encodings());
+            $detected = mb_detect_encoding($this->string, mb_detect_order(), true);
+            if ($detected !== false && $detected !== 'UTF-8') {
+                $this->string = mb_convert_encoding($this->string, 'UTF-8', $detected);
+            }
         }
 
         return $this;

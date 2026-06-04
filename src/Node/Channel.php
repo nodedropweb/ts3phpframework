@@ -1,5 +1,27 @@
 <?php
 
+/**
+ * @file
+ * TeamSpeak 3 PHP Framework
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package   TeamSpeak3
+ * @author    Sven 'ScP' Paulsen
+ * @copyright Copyright (c) Planet TeamSpeak. All rights reserved.
+ */
+
 namespace PlanetTeamSpeak\TeamSpeak3Framework\Node;
 
 use PlanetTeamSpeak\TeamSpeak3Framework\Exception\AdapterException;
@@ -294,7 +316,7 @@ class Channel extends Node
      * @param string|null $tcpw
      * @return void
      */
-    public function fileRename(string $cpw = "", string $oldname = "/", string $newname = "/", int $tcid = null, string $tcpw = null): void
+    public function fileRename(string $cpw = "", string $oldname = "/", string $newname = "/", ?int $tcid = null, ?string $tcpw = null): void
     {
         $this->getParent()->channelFileRename($this->getId(), $cpw, $oldname, $newname, $tcid, $tcpw);
     }
@@ -423,7 +445,7 @@ class Channel extends Node
      * @throws AdapterException
      * @throws ServerQueryException
      */
-    public function message(string $msg, string $cpw = null): void
+    public function message(string $msg, ?string $cpw = null): void
     {
         if ($this->getId() != $this->getParent()->whoamiGet("client_channel_id")) {
             $this->getParent()->clientMove($this->getParent()->whoamiGet("client_id"), $this->getId(), $cpw);
@@ -450,7 +472,7 @@ class Channel extends Node
      * @param integer|null $order
      * @return void
      */
-    public function move(int $pid, int $order = null): void
+    public function move(int $pid, ?int $order = null): void
     {
         $this->getParent()->channelMove($this->getId(), $pid, $order);
     }
@@ -466,7 +488,7 @@ class Channel extends Node
      * @throws AdapterException
      * @throws ServerQueryException
      */
-    public function sendPluginCmd(string $plugin, string $data, string $cpw = null, bool $subscribed = false): void
+    public function sendPluginCmd(string $plugin, string $data, ?string $cpw = null, bool $subscribed = false): void
     {
         if ($this->getId() != $this->getParent()->whoamiGet("client_channel_id")) {
             $this->getParent()->clientMove($this->getParent()->whoamiGet("client_id"), $this->getId(), $cpw);

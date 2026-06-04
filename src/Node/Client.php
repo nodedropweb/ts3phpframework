@@ -1,5 +1,27 @@
 <?php
 
+/**
+ * @file
+ * TeamSpeak 3 PHP Framework
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package   TeamSpeak3
+ * @author    Sven 'ScP' Paulsen
+ * @copyright Copyright (c) Planet TeamSpeak. All rights reserved.
+ */
+
 namespace PlanetTeamSpeak\TeamSpeak3Framework\Node;
 
 use PlanetTeamSpeak\TeamSpeak3Framework\Exception\AdapterException;
@@ -103,7 +125,7 @@ class Client extends Node
      * @param string|null $cpw
      * @return void
      */
-    public function move(int $cid, string $cpw = null): void
+    public function move(int $cid, ?string $cpw = null): void
     {
         $this->getParent()->clientMove($this->getId(), $cid, $cpw);
     }
@@ -115,7 +137,7 @@ class Client extends Node
      * @param string|null $reasonmsg
      * @return void
      */
-    public function kick(int $reasonid = TeamSpeak3::KICK_CHANNEL, string $reasonmsg = null): void
+    public function kick(int $reasonid = TeamSpeak3::KICK_CHANNEL, ?string $reasonmsg = null): void
     {
         $this->getParent()->clientKick($this->getId(), $reasonid, $reasonmsg);
     }
@@ -139,7 +161,7 @@ class Client extends Node
      * @param string|null $reason
      * @return array
      */
-    public function ban(int $timeseconds = null, string $reason = null): array
+    public function ban(?int $timeseconds = null, ?string $reason = null): array
     {
         return $this->getParent()->clientBan($this->getId(), $timeseconds, $reason);
     }

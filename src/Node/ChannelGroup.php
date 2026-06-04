@@ -1,5 +1,27 @@
 <?php
 
+/**
+ * @file
+ * TeamSpeak 3 PHP Framework
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package   TeamSpeak3
+ * @author    Sven 'ScP' Paulsen
+ * @copyright Copyright (c) Planet TeamSpeak. All rights reserved.
+ */
+
 namespace PlanetTeamSpeak\TeamSpeak3Framework\Node;
 
 use PlanetTeamSpeak\TeamSpeak3Framework\Exception\ServerQueryException;
@@ -65,7 +87,7 @@ class ChannelGroup extends Group
      * @param integer $type
      * @return integer
      */
-    public function copy(string $name = null, int $tcgid = 0, int $type = TeamSpeak3::GROUP_DBTYPE_REGULAR): int
+    public function copy(?string $name = null, int $tcgid = 0, int $type = TeamSpeak3::GROUP_DBTYPE_REGULAR): int
     {
         return $this->getParent()->channelGroupCopy($this->getId(), $name, $tcgid, $type);
     }
@@ -134,7 +156,7 @@ class ChannelGroup extends Group
      * @param boolean $resolve
      * @return array
      */
-    public function clientList(int $cid = null, int $cldbid = null, bool $resolve = false): array
+    public function clientList(?int $cid = null, ?int $cldbid = null, bool $resolve = false): array
     {
         return $this->getParent()->channelGroupClientList($this->getId(), $cid, $cldbid, $resolve);
     }
@@ -157,7 +179,7 @@ class ChannelGroup extends Group
      * @param string|null $customset
      * @return StringHelper
      */
-    public function privilegeKeyCreate(int $cid, string $description = null, string $customset = null): StringHelper
+    public function privilegeKeyCreate(int $cid, ?string $description = null, ?string $customset = null): StringHelper
     {
         return $this->getParent()->privilegeKeyCreate($this->getId(), TeamSpeak3::TOKEN_CHANNELGROUP, $cid, $description, $customset);
     }

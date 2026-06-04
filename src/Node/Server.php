@@ -1,5 +1,27 @@
 <?php
 
+/**
+ * @file
+ * TeamSpeak 3 PHP Framework
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package   TeamSpeak3
+ * @author    Sven 'ScP' Paulsen
+ * @copyright Copyright (c) Planet TeamSpeak. All rights reserved.
+ */
+
 namespace PlanetTeamSpeak\TeamSpeak3Framework\Node;
 
 use PlanetTeamSpeak\TeamSpeak3Framework\Adapter\ServerQuery\Reply;
@@ -180,7 +202,7 @@ class Server extends Node
      * @throws AdapterException
      * @throws ServerQueryException
      */
-    public function channelMove(int $cid, int $pid, int $order = null): void
+    public function channelMove(int $cid, int $pid, ?int $order = null): void
     {
         $this->execute("channelmove", ["cid" => $cid, "cpid" => $pid, "order" => $order]);
         $this->channelListReset();
@@ -214,7 +236,7 @@ class Server extends Node
         string $ident,
         int    $type = TeamSpeak3::SPACER_SOLIDLINE,
         int    $align = TeamSpeak3::SPACER_ALIGN_REPEAT,
-        int    $order = null,
+        ?int $order = null,
         int    $maxclients = 0
     ): int {
         $properties = [
@@ -485,7 +507,7 @@ class Server extends Node
      * @throws AdapterException
      * @throws ServerQueryException
      */
-    public function channelFileRename(int $cid, string $cpw = "", string $oldname = "/", string $newname = "/", int $tcid = null, string $tcpw = null): void
+    public function channelFileRename(int $cid, string $cpw = "", string $oldname = "/", string $newname = "/", ?int $tcid = null, ?string $tcpw = null): void
     {
         $this->execute("ftrenamefile", ["cid" => $cid, "cpw" => $cpw, "oldname" => $oldname, "newname" => $newname, "tcid" => $tcid, "tcpw" => $tcpw]);
     }
@@ -662,7 +684,7 @@ class Server extends Node
      * @throws AdapterException
      * @throws ServerQueryException
      */
-    public function clientListDb(int $offset = null, int $limit = null): array
+    public function clientListDb(?int $offset = null, ?int $limit = null): array
     {
         return $this->execute("clientdblist -count", ["start" => $offset, "duration" => $limit])
             ->toAssocArray("cldbid");
@@ -924,7 +946,7 @@ class Server extends Node
      * @throws AdapterException
      * @throws ServerQueryException
      */
-    public function clientBan(int $clid, int $timeseconds = null, string $reason = null): array
+    public function clientBan(int $clid, ?int $timeseconds = null, ?string $reason = null): array
     {
         $this->clientListReset();
 
@@ -1101,7 +1123,7 @@ class Server extends Node
      * @throws AdapterException
      * @throws ServerQueryException
      */
-    public function serverGroupCopy(int $ssgid, string $name = null, int $tsgid = 0, int $type = TeamSpeak3::GROUP_DBTYPE_REGULAR): int
+    public function serverGroupCopy(int $ssgid, ?string $name = null, int $tsgid = 0, int $type = TeamSpeak3::GROUP_DBTYPE_REGULAR): int
     {
         $this->serverGroupListReset();
 
@@ -1453,7 +1475,7 @@ class Server extends Node
      * @throws AdapterException
      * @throws ServerQueryException
      */
-    public function channelGroupCopy(int $scgid, string $name = null, int $tcgid = 0, int $type = TeamSpeak3::GROUP_DBTYPE_REGULAR): int
+    public function channelGroupCopy(int $scgid, ?string $name = null, int $tcgid = 0, int $type = TeamSpeak3::GROUP_DBTYPE_REGULAR): int
     {
         $this->channelGroupListReset();
 
@@ -1608,7 +1630,7 @@ class Server extends Node
      * @throws AdapterException
      * @throws ServerQueryException
      */
-    public function channelGroupClientList(int $cgid = null, int $cid = null, int $cldbid = null, bool $resolve = false): array
+    public function channelGroupClientList(?int $cgid = null, ?int $cid = null, ?int $cldbid = null, bool $resolve = false): array
     {
         if ($this["virtualserver_default_channel_group"] == $cgid) {
             return [];
@@ -1812,7 +1834,7 @@ class Server extends Node
      * @throws HelperException
      * @throws ServerQueryException
      */
-    public function iconDownload(string $iconname = null)
+    public function iconDownload(?string $iconname = null)
     {
         if ($iconname) {
             $name = new StringHelper("/" . $iconname);
@@ -2095,8 +2117,8 @@ class Server extends Node
         int $id1,
         int $id2 = 0,
         int $type = TeamSpeak3::TOKEN_SERVERGROUP,
-        string $description = null,
-        array $customset = null
+        ?string $description = null,
+        ?array $customset = null
     ): StringHelper {
         return $this->privilegeKeyCreate($id1, $id2, $type, $description, $customset);
     }
@@ -2116,8 +2138,8 @@ class Server extends Node
         int    $id1,
         int    $id2 = 0,
         int    $type = TeamSpeak3::TOKEN_SERVERGROUP,
-        string $description = null,
-        string $customset = null
+        ?string $description = null,
+        ?string $customset = null
     ): StringHelper {
         $token = $this->execute("privilegekeyadd", ["tokentype" => $type, "tokenid1" => $id1, "tokenid2" => $id2, "tokendescription" => $description, "tokencustomset" => $customset])
             ->toList();
@@ -2285,7 +2307,7 @@ class Server extends Node
      * @throws AdapterException
      * @throws ServerQueryException
      */
-    public function banCreate(array $rules, int $timeseconds = null, string $reason = null): int
+    public function banCreate(array $rules, ?int $timeseconds = null, ?string $reason = null): int
     {
         $rules["time"] = $timeseconds;
         $rules["banreason"] = $reason;
@@ -2317,7 +2339,7 @@ class Server extends Node
      * @throws AdapterException
      * @throws ServerQueryException
      */
-    public function complaintList(int $tcldbid = null): array
+    public function complaintList(?int $tcldbid = null): array
     {
         return $this->execute("complainlist", ["tcldbid" => $tcldbid])->toArray();
     }
@@ -2431,7 +2453,7 @@ class Server extends Node
      * @throws AdapterException
      * @throws ServerQueryException
      */
-    public function logView(int $lines = 30, int $begin_pos = null, bool $reverse = null, bool $instance = null): array
+    public function logView(int $lines = 30, ?int $begin_pos = null, ?bool $reverse = null, ?bool $instance = null): array
     {
         return $this->execute("logview", ["lines" => $lines, "begin_pos" => $begin_pos, "instance" => $instance, "reverse" => $reverse])
             ->toArray();
@@ -2489,7 +2511,7 @@ class Server extends Node
      * @param string|null $msg
      * @return void
      */
-    public function stop(string $msg = null): void
+    public function stop(?string $msg = null): void
     {
         $this->getParent()->serverStop($this->getId(), $msg);
     }

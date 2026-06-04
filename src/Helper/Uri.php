@@ -1,5 +1,27 @@
 <?php
 
+/**
+ * @file
+ * TeamSpeak 3 PHP Framework
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @package   TeamSpeak3
+ * @author    Sven 'ScP' Paulsen
+ * @copyright Copyright (c) Planet TeamSpeak. All rights reserved.
+ */
+
 namespace PlanetTeamSpeak\TeamSpeak3Framework\Helper;
 
 use PlanetTeamSpeak\TeamSpeak3Framework\Exception\HelperException;
@@ -197,7 +219,7 @@ class Uri
      * @return boolean
      * @throws HelperException
      */
-    public function checkUser(string $username = null): bool
+    public function checkUser(?string $username = null): bool
     {
         if ($username === null) {
             $username = $this->user->toString();
@@ -245,7 +267,7 @@ class Uri
      * @return boolean
      * @throws HelperException
      */
-    public function checkPass(StringHelper|string $password = null): bool
+    public function checkPass(StringHelper|string|null $password = null): bool
     {
         if ($password === null) {
             $password = $this->pass->toString();
@@ -292,7 +314,7 @@ class Uri
      * @param string|null $host
      * @return boolean
      */
-    public function checkHost(string $host = null): bool
+    public function checkHost(?string $host = null): bool
     {
         if ($host === null) {
             $host = $this->host;
@@ -343,7 +365,7 @@ class Uri
      * @param integer|null $port
      * @return boolean
      */
-    public function checkPort(int $port = null): bool
+    public function checkPort(?int $port = null): bool
     {
         if ($port === null) {
             if ($this->port instanceof StringHelper) {
@@ -392,7 +414,7 @@ class Uri
      * @return boolean
      * @throws HelperException
      */
-    public function checkPath(string $path = null): bool
+    public function checkPath(?string $path = null): bool
     {
         if ($path === null) {
             $path = $this->path->toString();
@@ -440,7 +462,7 @@ class Uri
      * @return boolean
      * @throws HelperException
      */
-    public function checkQuery(string $query = null): bool
+    public function checkQuery(?string $query = null): bool
     {
         if ($query === null) {
             $query = $this->query;
@@ -541,7 +563,7 @@ class Uri
      * @return boolean
      * @throws HelperException
      */
-    public function checkFragment(string $fragment = null): bool
+    public function checkFragment(?string $fragment = null): bool
     {
         if ($fragment === null) {
             $fragment = $this->fragment;
