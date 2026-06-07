@@ -403,7 +403,7 @@ class StringHelper implements ArrayAccess, Iterator, Countable, JsonSerializable
      */
     public function toInt(): int
     {
-        if ($this->string == pow(2, 63) || $this->string == pow(2, 64) || $this->string > pow(2, 31)) {
+        if ($this->string == pow(2, 63) || $this->string == pow(2, 64)) {
             return -1;
         }
 
